@@ -97,6 +97,7 @@ export default {
       GanacheUrl: "localhost:7545",
       NewContract: null,
       PaintingSize: "500",
+      contractaddr: "0x8Ba60d98946f0410906a9CEb0B1240172be44633",
       colors: [
         "#ff4500",
         "#ffa800",
@@ -132,7 +133,7 @@ export default {
       .subscribe(
         "logs",
         {
-          address: "0x54d9A759B47af7d9D58F131C709Dd4Fb57063C01",
+          address: obj.contractaddr,
           topics: [
             "0x7087c0425f2117d8d78d7f3022e3b3f1de72d08d6f83d92d544ee221a3a0538b",
           ],
@@ -213,12 +214,12 @@ export default {
       // 使用 JSON 接口、合约地址，创建一个新的合约实例，其所有方法和事件都在其json 接口对象中定义。
       var contract = new this.web3.eth.Contract(
         this.ContractABI.abi,
-        "0x54d9A759B47af7d9D58F131C709Dd4Fb57063C01"
+        this.contractaddr,
       );
       var temp = await contract.methods.getsize().call();
       obj.size = temp;
       var pixels = await contract.methods.getpixels().call();
-      // console.log(pixels);
+      console.log(pixels);
       for (var i in pixels) {
         // console.log(pixels[i]);
         this.CancasPaint(pixels[i].x, pixels[i].y, pixels[i].color);

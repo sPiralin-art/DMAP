@@ -21,8 +21,11 @@ import WelcomeItem from "./WelcomeItem.vue";
         <Clock />
       </el-icon>
     </template>
-    <template #heading>Mint in:</template>
-    {{ count }}
+    <template v-if="seconds > 0" #heading
+      >Mint in:
+      <p>{{ count }}</p></template
+    >
+    <template v-else #heading>Minting!</template>
   </WelcomeItem>
   <WelcomeItem>
     <template #icon>
@@ -119,6 +122,9 @@ import WelcomeItem from "./WelcomeItem.vue";
           <el-button @click="PaintPixel" type="success">Paint</el-button>
         </template>
       </el-popover>
+      <el-button v-if="seconds < 0" @click="PaintPixel" type="danger"
+        >Mint!</el-button
+      >
     </el-row>
   </WelcomeItem>
 </template>
@@ -136,6 +142,7 @@ export default {
       GanacheUrl: "localhost:7545",
       CurrentAccount: null,
       NewContract: null,
+      contractaddr: "0x8Ba60d98946f0410906a9CEb0B1240172be44633",
       options: [],
       balance: 0,
       value: "",
@@ -175,7 +182,7 @@ export default {
       obj.accountlist = tempaccountlist;
       var contract = new this.web3.eth.Contract(
         this.ContractABI.abi,
-        "0x54d9A759B47af7d9D58F131C709Dd4Fb57063C01"
+        this.contractaddr
       );
       var CD = await contract.methods.CDofPainter(this.value).call();
       var temp = await contract.methods.getfinishtime().call();
@@ -219,7 +226,7 @@ export default {
       console.log(obj.value);
       var contract = new this.web3.eth.Contract(
         this.ContractABI.abi,
-        "0x54d9A759B47af7d9D58F131C709Dd4Fb57063C01"
+        this.contractaddr
       );
       var temp = await contract.methods
         .paint(obj.positionx, obj.positiony, obj.color)
