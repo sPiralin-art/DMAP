@@ -1,0 +1,10 @@
+{
+  "name": "DMAP",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "solc": "^0.8.17",
+    "truffle": "^5.6.8"
+  }
+}
